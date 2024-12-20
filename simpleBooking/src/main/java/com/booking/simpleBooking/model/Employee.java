@@ -6,15 +6,18 @@ import jakarta.persistence.Id;
 @Entity
 public class Employee {
   @Id
-  private int employeeId;
+  private String employeeId;
+
   private String firstName;
   private String lastName;
+  private String phoneNum;
+  private String password;
 
-  public void setEmployeeId(int employeeId) {
+  public void setEmployeeId(String employeeId) {
     this.employeeId = employeeId;
   }
 
-  public int getEmployeeId() {
+  public String getEmployeeId() {
     return employeeId;
   }
 
@@ -32,6 +35,22 @@ public class Employee {
 
   public String getLastName() {
     return lastName;
+  }
+
+  public void setPhoneNum(String phoneNum) {
+    this.phoneNum = phoneNum;
+  }
+
+  public String getPhoneNum() {
+    return phoneNum;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getPassword() {
+    return password;
   }
 
 }

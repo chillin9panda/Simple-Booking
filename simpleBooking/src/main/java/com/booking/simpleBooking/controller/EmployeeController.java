@@ -11,12 +11,16 @@ public class EmployeeController {
   @Autowired
   private EmployeeRepository employeeRepository;
 
-  @GetMapping("/add-employee")
+  @GetMapping("/addEmployee")
   public String addEmployee() {
+    // Add Employee
     Employee employee = new Employee();
-    employee.setEmployeeId(001);
+    employee.setEmployeeId("emp001");
     employee.setFirstName("John");
     employee.setLastName("Doe");
+    employee.setPhoneNum("0915253640");
+
+    employee.setPassword("john001");
 
     employeeRepository.save(employee);
     return "Employee Saved";
