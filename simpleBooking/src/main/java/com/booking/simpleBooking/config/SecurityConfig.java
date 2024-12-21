@@ -22,9 +22,8 @@ class SecurityConfig {
             .loginPage("/login") // custom login page
             .usernameParameter("employee_id")
             .passwordParameter("password")
-            .successHandler(customSuccessHandler())
-            .failureHandler(customFailureHandler())
-            .permitAll());
+            .successHandler(customSuccessHandler()).permitAll()
+            .failureHandler(customFailureHandler()));
 
     return http.build();
   }
