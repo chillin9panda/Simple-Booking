@@ -24,3 +24,8 @@ If port 8080 is in use stop the running program or add to application.properties
 `server.port = <port number>`   
 then go to  `localhost:<port number>`
 
+
+## Add User to DB for authentication and Login
+1. Enter `localhost:<port number>/addEmployee`  
+2. Login with username: `emp001` and password: `john001`
+
