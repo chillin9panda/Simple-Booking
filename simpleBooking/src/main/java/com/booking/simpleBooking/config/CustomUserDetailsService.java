@@ -11,6 +11,7 @@ import com.booking.simpleBooking.repository.EmployeeRepository;
 
 @Service
 class CustomUserDetailsService implements UserDetailsService {
+
   private final EmployeeRepository employeeRepository;
 
   @Autowired
@@ -28,4 +29,5 @@ class CustomUserDetailsService implements UserDetailsService {
         .password(employee.getPassword())
         .build();
   }
+
 }
