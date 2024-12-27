@@ -26,6 +26,7 @@ then go to  `localhost:<port number>`
 
 
 ## Add User to DB for authentication and Login
-1. Enter `localhost:<port number>/addEmployee`  
-2. Login with username: `emp001` and password: `john001`
+1. Enter `localhost:<port number>/addEmployee` on the browser  
+2. Go back to `loacalhost:<port number>`  
+3. Login with username: `emp001` and password: `john001`
 
