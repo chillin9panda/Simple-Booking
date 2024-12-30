@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Booking Home</title>
+	<meta name="_csrf" content="${_csrf.token}" />
+	<meta name="_csrf_header" content="${_csrf.headerName}" />
+    <title>Booking</title>
     <link rel="stylesheet" th:href="@{/css/booking_style.css}" />
   </head>
 
@@ -27,7 +29,7 @@
       <!-- Home Section -->
       <div id="home-section" class="main-body" style="display: block">
         <div class="welcome">
-          <h2>Welcome, {{ user_name }}</h2>
+          <h2>Welcome, <span th:text="${user_name}"></span></h2>
           <p>Today is <span id="current-date"></span></p>
         </div>
       </div>
@@ -50,13 +52,24 @@
       <div id="book-room-section" class="book-room" style="display: none">
         <h3>Book a Room</h3>
         <!-- Content for Book Room Section -->
-        <form id="book-room-form">
+        <form id="book-room-form" action="/api/guests/add" method="post">
           <!--Guest Name-->
           <div class="form-group">
-            <label for="guest-name">Guest Name: </label>
+            <label for="guest-first-name"> First Name: </label>
             <input
               type="text"
-              id="guest_name"
+              id="guest_last_name"
+              name="firstName"
+              placeholder="Enter Guest Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="guest-last-name"> Last Name: </label>
+            <input
+              type="text"
+              id="guest_first_name"
+              name="lastName"
               placeholder="Enter Guest Name"
               required
             />
@@ -67,6 +80,7 @@
             <input
               type="text"
               id="contact-number"
+              name="phoneNum"
               placeholder="Enter Phone Number"
               required
             />
@@ -77,18 +91,19 @@
             <input
               type="text"
               id="guest_email"
+              name="email"
               placeholder="Enter Guest Email"
             />
           </div>
           <!--Check-In Date-->
           <div class="form-group">
             <label for="check-in-date">Check-In Date: </label>
-            <input type="date" id="check-in-date" required />
+            <input type="date" id="check-in-date" />
           </div>
           <!--Check-Out Date-->
           <div class="form-group">
             <label for="check-out-date">Check-Out Date: </label>
-            <input type="date" id="check-out-date" required />
+            <input type="date" id="check-out-date" />
           </div>
           <!--Room Number-->
           <div class="form-group">

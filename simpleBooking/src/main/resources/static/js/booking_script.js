@@ -1,32 +1,32 @@
-//Dynamic date
+// Dynamic date
 const currentDate = new Date();
 
 const formattedDate = currentDate.toLocaleDateString('en-US', {
-	weekday: 'long',
-	year: 'numeric',
-	month: 'long',
-	day: 'numeric'
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
 });
 
 document.getElementById('current-date').textContent = formattedDate;
 
-//show the Home section
+// Show the Home section
 function showHome() {
-    hideAllSections(); 
+    hideAllSections();
     document.getElementById('home-section').style.display = 'block';
     document.getElementById('info-section').style.display = 'block';
 }
 
-// show the Book Room section
+// Show the Book Room section
 function showBookRoom() {
-    hideAllSections(); 
+    hideAllSections();
     document.getElementById('book-room-section').style.display = 'block';
 }
 
-//show view rooms section
+// Show View Rooms section
 function showViewRooms() {
-	hideAllSections();
-	document.getElementById('view-rooms-section').style.display = 'block';
+    hideAllSections();
+    document.getElementById('view-rooms-section').style.display = 'block';
 }
 
 // Function to hide all sections
@@ -53,41 +53,49 @@ document.getElementById('view-rooms-link').addEventListener('click', function (e
     showViewRooms();
 });
 
-document.getElementById('book-room-form').addEventListener('submit', function(event){
-    event.preventDefault();
+// Form submit (AJAX)
+document.getElementById('book-room-form').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent the default form submission
 
-    const formData = new FormData(this); //collect
+    // Collect form data
+    const firstName = document.getElementById('guest_first_name').value;
+    const lastName = document.getElementById('guest_last_name').value;
+    const phoneNum = document.getElementById('contact-number').value;
+    const email = document.getElementById('guest_email').value;
 
-    fetch("{% url 'book_room' %}", {
-	method: 'POST',
-	body: formData,
+    // Create an object to store the data
+    const data = {
+        firstName: firstName,
+        lastName: lastName,
+        phoneNum: phoneNum,
+        email: email
+    };
+
+    // Access CSRF Token and CSRF Header from meta tags
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+    console.log("CSRF Token:", csrfToken);
+    console.log("CSRF Header:", csrfHeader);
+
+    // Use fetch to send the data to your backend (AJAX)
+    fetch('/api/guests/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',  // Indicate we're sending JSON
+            [csrfHeader]: csrfToken  // Use the CSRF header
+        },
+        body: JSON.stringify(data)  // Send the data as JSON
     })
-    .then(response => response.json())
-    .then(data => {
-	    if(data.success){
-		alert('Room Booked Successfully');
-	    } else {
-		alert('Error');
-	    }
-	})
+    .then(response => response.json())  // Parse JSON response
+    .then(responseData => {
+        console.log('Success:', responseData);  // Handle success (e.g., show success message)
+        alert('Booking successful!');
+    })
     .catch(error => {
-	    console.error('Error: ', error);
-	});
-});
-
-//Dynamic section for mobile banking payment method
-document.getElementById("payment-method").addEventListener("change", function() {
-	const paymentMethod = this.value;
-	const mobileBankingFields = document.getElementById("mobile-banking-fields");
-	
-	if ("mobile-banking" === paymentMethod){
-		mobileBankingFields.style.display = "block";
-	} else {
-		mobileBankingFields.style.display = "none";
-	}
-
-	document.getElementById("bank-name").value = ""; 
-	document.getElementById("transaction-id").value = "";
+        console.error('Error:', error);  // Handle error
+        alert('Error: ' + error.message);
+    });
 });
 
 // Set the default section to show (Home) when the page loads
