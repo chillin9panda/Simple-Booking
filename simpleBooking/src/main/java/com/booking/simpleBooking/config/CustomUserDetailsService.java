@@ -11,10 +11,9 @@ import com.booking.simpleBooking.repository.EmployeeRepository;
 
 @Service
 class CustomUserDetailsService implements UserDetailsService {
-
+  @Autowired
   private final EmployeeRepository employeeRepository;
 
-  @Autowired
   public CustomUserDetailsService(EmployeeRepository employeeRepository) {
     this.employeeRepository = employeeRepository;
   }
