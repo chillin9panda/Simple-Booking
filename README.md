@@ -2,8 +2,9 @@
 
 ### Requires:
 OpenJdk 23 (or change Java version in pom.xml to 23, 21 or 17)  
-MySQL  
-Maven (Optional)  
+MySQL   
+Maven (https://maven.apache.org/download.cgi)  
+  Extract and add to path
   
 ## To Run
 1. Log into MySQL as root from console  
