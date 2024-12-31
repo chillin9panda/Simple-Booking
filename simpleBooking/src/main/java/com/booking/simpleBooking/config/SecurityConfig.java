@@ -7,19 +7,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            .requireCsrfProtectionMatcher(request -> request
-                .getMethod().equals("POST")))
-        .authorizeHttpRequests(authz -> authz
+    http.authorizeHttpRequests(authz -> authz
             .requestMatchers("/addEmployee", "/api/guests/add").permitAll()
             .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
             .anyRequest().authenticated() // Require authentication for other page

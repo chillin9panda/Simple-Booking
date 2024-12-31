@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="_csrf" content="${_csrf.token}" />
-	<meta name="_csrf_header" content="${_csrf.headerName}" />
     <title>Booking</title>
     <link rel="stylesheet" th:href="@{/css/booking_style.css}" />
   </head>
@@ -52,13 +50,19 @@
       <div id="book-room-section" class="book-room" style="display: none">
         <h3>Book a Room</h3>
         <!-- Content for Book Room Section -->
-        <form id="book-room-form" action="/api/guests/add" method="post">
+        <form
+          id="book-room-form"
+          action="#"
+          th:action="@{/api/guests/add}"
+          th:object="${Guests}"
+          method="post"
+        >
           <!--Guest Name-->
           <div class="form-group">
             <label for="guest-first-name"> First Name: </label>
             <input
               type="text"
-              id="guest_last_name"
+              id="guest_first_name"
               name="firstName"
               placeholder="Enter Guest Name"
               required
@@ -68,8 +72,7 @@
             <label for="guest-last-name"> Last Name: </label>
             <input
               type="text"
-              id="guest_first_name"
-              name="lastName"
+              id="guest_last_name"
               placeholder="Enter Guest Name"
               required
             />
@@ -94,36 +97,6 @@
               name="email"
               placeholder="Enter Guest Email"
             />
-          </div>
-          <!--Check-In Date-->
-          <div class="form-group">
-            <label for="check-in-date">Check-In Date: </label>
-            <input type="date" id="check-in-date" />
-          </div>
-          <!--Check-Out Date-->
-          <div class="form-group">
-            <label for="check-out-date">Check-Out Date: </label>
-            <input type="date" id="check-out-date" />
-          </div>
-          <!--Room Number-->
-          <div class="form-group">
-            <label for="room-number">Room Number: </label>
-            <select id="room-number" name="room_number" required>
-              <option value="" disable selected>Select Room Number</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div>
-
-          <!--Payment Method-->
-          <div class="form-group">
-            <label for="payment-method">Payment Method: </label>
-            <select id="payment-method" name="payment_method" required>
-              <option value="" disabled selected>Select Payment Method</option>
-              <option value="cash">Cash</option>
-              <option value="card">Card</option>
-              <option value="mobile-banking">Mobile Banking</option>
-            </select>
           </div>
 
           <!--Submit Button-->
