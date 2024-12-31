@@ -1,7 +1,7 @@
 # Simple Booking
 
 ### Requires:
-OpenJdk 23 (or change Java version in pom.xml to 23, 21 or 17)  
+OpenJdk 23 (or change Java version in pom.xml)  
 MySQL   
 Maven (https://maven.apache.org/download.cgi)  
   Extract and add to path
