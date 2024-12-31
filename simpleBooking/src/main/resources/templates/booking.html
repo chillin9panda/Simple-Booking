@@ -50,13 +50,7 @@
       <div id="book-room-section" class="book-room" style="display: none">
         <h3>Book a Room</h3>
         <!-- Content for Book Room Section -->
-        <form
-          id="book-room-form"
-          action="#"
-          th:action="@{/api/guests/add}"
-          th:object="${Guests}"
-          method="post"
-        >
+        <form id="book-room-form" th:action="@{/api/guests/add}" method="post">
           <!--Guest Name-->
           <div class="form-group">
             <label for="guest-first-name"> First Name: </label>
@@ -73,6 +67,7 @@
             <input
               type="text"
               id="guest_last_name"
+              name="lastName"
               placeholder="Enter Guest Name"
               required
             />
