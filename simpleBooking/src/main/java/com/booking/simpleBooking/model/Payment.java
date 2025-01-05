@@ -1,13 +1,15 @@
 package com.booking.simpleBooking.model;
 
 import java.time.temporal.ChronoUnit;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Payment {
@@ -21,8 +23,17 @@ public class Payment {
 
   private Integer daysStayed;
   private Double totalAmount;
-  private String paymentMethod;
   private boolean isPaid;
+
+  @NotNull(message = "payment method is required")
+  @Enumerated(EnumType.STRING)
+  private PaymentMethod paymentMethod;
+
+  private enum PaymentMethod {
+    Cash,
+    Card,
+    Mobile_Banking
+  }
 
   // calculate days stayed and total totalAmount
   private void calculatePaymentDetails() {
@@ -57,6 +68,14 @@ public class Payment {
 
   public Double getTotalAmount() {
     return totalAmount;
+  }
+
+  public void setPaymentMethod(PaymentMethod paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  public PaymentMethod getPaymentMethod() {
+    return paymentMethod;
   }
 
 }
