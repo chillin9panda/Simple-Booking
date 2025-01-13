@@ -10,7 +10,8 @@ public class Rooms {
     @Id
     private int roomNumber;
     
-    private String roomType;
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
     
     private double roomPrice;
     
@@ -26,11 +27,11 @@ public class Rooms {
         this.roomNumber = roomNumber;
     }
 
-    public String getRoomType() {
+    public RoomType getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String roomType) {
+    public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
 
@@ -48,6 +49,11 @@ public class Rooms {
 
     public void setRoomStatus(RoomStatus roomStatus) {
         this.roomStatus = roomStatus;
+    }
+
+    public enum RoomType{
+        SINGLE,
+        DOUBLE
     }
 
     public enum RoomStatus {
