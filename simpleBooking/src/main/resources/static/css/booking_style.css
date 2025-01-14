@@ -256,3 +256,23 @@
 	color: #fff;
 	background-color: #dc3545;
 }
+
+/* Manage Rooms Button */
+.add-room-btn {
+	margin-left: 25%;
+	height: 50px;
+	width: 100px;
+	background-color: #4caf50;
+	color: white;
+	color: 10px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 20;
+}
+
+.add-room-btn:hover {
+	background-color: #45a049;
+}
+
+

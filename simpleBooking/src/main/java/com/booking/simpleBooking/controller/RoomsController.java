@@ -1,63 +1,67 @@
-import com.booking.simpleBooking.model.Room;
-import com.booking.simpleBooking.service.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-
-// Define the package for the controller
 package com.booking.simpleBooking.controller;
 
+import com.booking.simpleBooking.model.Rooms;
+import com.booking.simpleBooking.repository.RoomsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
 @RestController
-@RequestMapping("/rooms")
+@RequestMapping("/addRooms")
 public class RoomsController {
 
-    // Inject the RoomService dependency
-    @Autowired
-    private RoomService roomService;
+  @Autowired
+  private RoomsRepository roomsRepository;
 
-    // Handle GET requests to retrieve all rooms
-    @GetMapping
-    public List<Room> getAllRooms() {
-        return roomService.getAllRooms();
-    }
+  @GetMapping
+  public List<Rooms> getAllRooms() {
+    return roomsRepository.findAll();
+  }
 
-    // Handle GET requests to retrieve a room by its ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
-        Room room = roomService.getRoomById(id);
-        if (room != null) {
-            return ResponseEntity.ok(room);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+  @GetMapping("/add")
+  public String loadAddRoomForm() {
+    return "addRoom";
+  }
 
-    // Handle POST requests to create a new room
-    @PostMapping
-    public Room createRoom(@RequestBody Room room) {
-        return roomService.createRoom(room);
-    }
+  @GetMapping("/{roomNumber}")
+  public ResponseEntity<Rooms> getRoomsById(@PathVariable Integer roomNumber) {
+    return roomsRepository.findById(roomNumber)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
 
-    // Handle PUT requests to update an existing room by its ID
-    @PutMapping("/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable Long id, @RequestBody Room roomDetails) {
-        Room updatedRoom = roomService.updateRoom(id, roomDetails);
-        if (updatedRoom != null) {
-            return ResponseEntity.ok(updatedRoom);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+  @PostMapping
+  public Rooms createRoom(@RequestBody Rooms room) {
+    return roomsRepository.save(room);
+  }
 
-    // Handle DELETE requests to delete a room by its ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
-        boolean isDeleted = roomService.deleteRoom(id);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+  @PutMapping("/{roomNumber}")
+  public ResponseEntity<Rooms> updateRoom(@PathVariable Integer roomNumber, @RequestBody Rooms roomDetails) {
+    return roomsRepository.findById(roomNumber)
+        .map(room -> {
+          room.setRoomPrice(roomDetails.getRoomPrice());
+          room.setRoomType(roomDetails.getRoomType());
+          Rooms updateRoom = roomsRepository.save(roomDetails);
+          return ResponseEntity.ok(updateRoom);
+        })
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @DeleteMapping("/{roomNumber}")
+  public ResponseEntity<Void> deleteRoom(@PathVariable Integer roomNumber) {
+    if (roomsRepository.existsById(roomNumber)) {
+      roomsRepository.deleteById(roomNumber);
+      return ResponseEntity.noContent().build();
+    } else {
+      return ResponseEntity.notFound().build();
     }
+  }
 }

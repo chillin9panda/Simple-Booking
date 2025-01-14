@@ -7,58 +7,58 @@ import jakarta.persistence.Enumerated;
 
 @Entity
 public class Rooms {
-    @Id
-    private int roomNumber;
-    
-    @Enumerated(EnumType.STRING)
-    private RoomType roomType;
-    
-    private double roomPrice;
-    
-    @Enumerated(EnumType.STRING)
-    private RoomStatus roomStatus;
+  @Id
+  private int roomNumber;
 
-    // Getters and Setters
-    public int getRoomNumber() {
-        return roomNumber;
-    }
+  @Enumerated(EnumType.STRING)
+  private RoomType roomType;
 
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
+  private double roomPrice;
 
-    public RoomType getRoomType() {
-        return roomType;
-    }
+  @Enumerated(EnumType.STRING)
+  private RoomStatus roomStatus;
 
-    public void setRoomType(RoomType roomType) {
-        this.roomType = roomType;
-    }
+  // Getters and Setters
+  public int getRoomNumber() {
+    return roomNumber;
+  }
 
-    public double getRoomPrice() {
-        return roomPrice;
-    }
+  public void setRoomNumber(int roomNumber) {
+    this.roomNumber = roomNumber;
+  }
 
-    public void setRoomPrice(double roomPrice) {
-        this.roomPrice = roomPrice;
-    }
+  public RoomType getRoomType() {
+    return roomType;
+  }
 
-    public RoomStatus getRoomStatus() {
-        return roomStatus;
-    }
+  public void setRoomType(RoomType roomType) {
+    this.roomType = roomType;
+  }
 
-    public void setRoomStatus(RoomStatus roomStatus) {
-        this.roomStatus = roomStatus;
-    }
+  public double getRoomPrice() {
+    return roomPrice;
+  }
 
-    public enum RoomType{
-        SINGLE,
-        DOUBLE
-    }
+  public void setRoomPrice(double roomPrice) {
+    this.roomPrice = roomPrice;
+  }
 
-    public enum RoomStatus {
-        AVAILABLE,
-        BOOKED,
-        UNAVAILABLE
-    }
+  public RoomStatus getRoomStatus() {
+    return roomStatus;
+  }
+
+  public void setRoomStatus(RoomStatus roomStatus) {
+    this.roomStatus = roomStatus;
+  }
+
+  public enum RoomType {
+    SINGLE,
+    DOUBLE
+  }
+
+  public enum RoomStatus {
+    AVAILABLE,
+    BOOKED,
+    UNAVAILABLE
+  }
 }
