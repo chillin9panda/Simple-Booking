@@ -4,6 +4,7 @@ import com.booking.simpleBooking.model.Rooms;
 import com.booking.simpleBooking.repository.RoomsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,18 +13,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
 import java.util.List;
 
-@RestController
-@RequestMapping("/addRooms")
+@Controller
+@RequestMapping("/")
 public class RoomsController {
 
   @Autowired
   private RoomsRepository roomsRepository;
 
   @GetMapping
-  public List<Rooms> getAllRooms() {
-    return roomsRepository.findAll();
+  public String getAllRooms(Model model) {
+    List<Rooms> rooms = roomsRepository.findAll();
+    model.addAttribute("rooms", rooms);
+    return "booking";
   }
 
   @GetMapping("/add")

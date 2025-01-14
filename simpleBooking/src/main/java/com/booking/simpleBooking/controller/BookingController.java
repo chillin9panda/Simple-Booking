@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 class BookingController {
-  @GetMapping("/")
+
+  @GetMapping("/Booking")
   public String BookingPage() {
     return "booking";
   }

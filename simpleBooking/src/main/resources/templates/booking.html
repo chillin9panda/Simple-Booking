@@ -81,7 +81,7 @@
     <div id="view-rooms-section" class="view-rooms" style="display: none">
       <h3>Rooms Overview</h3>
       <div class="room-list">
-        <div class="room" th:each="room : ${Rooms}">
+        <div class="room" th:each="room : ${rooms}">
           <span class="room-number" th:text="'Room ' + ${room.roomNumber}"></span>
           <span class="room-type" th:text="'Type ' + ${room.roomType}"></span>
           <span class="room-price" th:text="'Price ' + ${room.roomPrice}"></span>
@@ -92,7 +92,7 @@
       </div>
 
       <!--Manage Rooms-->
-      <h4 class="add-room"><a th:href="@{/addRooms/add}">Add
+      <h4 class="add-room"><a th:href="@{/add}">Add
           Rooms</a></h4>
     </div>
   </div>
