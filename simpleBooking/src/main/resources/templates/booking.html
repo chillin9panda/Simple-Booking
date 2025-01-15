@@ -72,6 +72,15 @@
           <input type="text" id="guest_email" name="email" placeholder="Enter Guest Email" />
         </div>
 
+        <div>
+          <label for="room-number">Room Number: </label>
+          <select>
+            <option value="" disabled selected>Select Room</option>
+            <option th:each="room : ${availableRooms}" th:value="${room.roomNumber}" th:text="${room.roomNumber}">
+            </option>
+          </select>
+        </div>
+
         <!--Submit Button-->
         <button type="submit" class="book-room-btn">Book Room</button>
       </form>
