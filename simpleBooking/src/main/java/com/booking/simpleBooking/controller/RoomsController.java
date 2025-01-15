@@ -27,6 +27,9 @@ public class RoomsController {
   public String getAllRooms(Model model) {
     List<Rooms> rooms = roomsRepository.findAll();
     model.addAttribute("rooms", rooms);
+    for (Rooms room : rooms) {
+      System.out.println(room.getRoomStatus());
+    }
     return "booking";
   }
 

@@ -83,11 +83,9 @@
       <div class="room-list">
         <div class="room" th:each="room : ${rooms}">
           <span class="room-number" th:text="'Room ' + ${room.roomNumber}"></span>
-          <span class="room-type" th:text="'Type ' + ${room.roomType}"></span>
-          <span class="room-price" th:text="'Price ' + ${room.roomPrice}"></span>
-          <span class="room-status" th:if="${room.roomStatus == 'AVAILABLE'}">Available</span>
-          <span class="room-status" th:if="${room.roomStatus == 'BOOKED'}">Occupied</span>
-          <span class="room-status" th:if="${room.roomStatus == 'UNAVAILABLE'}">Unavailable</span>
+          <span class="room-type" th:text="${room.roomType}"></span>
+          <span class="room-price" th:text="${room.roomPrice}"></span>
+          <span class="room-status" th:text="${room.roomStatus}"></span>
         </div>
       </div>
 
