@@ -7,12 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class RoomsController {
     return "booking";
   }
 
-  @GetMapping("/add")
+  @GetMapping("/addRoom")
   public String loadAddRoomForm() {
     return "addRoom";
   }
@@ -42,9 +42,11 @@ public class RoomsController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @PostMapping
-  public Rooms createRoom(@RequestBody Rooms room) {
-    return roomsRepository.save(room);
+  @PostMapping("/addRoom")
+  public String createRoom(@ModelAttribute Rooms room, Model model) {
+    roomsRepository.save(room);
+    model.addAttribute("successMessage", "Room Added");
+    return "redirect:/";
   }
 
   @PutMapping("/{roomNumber}")

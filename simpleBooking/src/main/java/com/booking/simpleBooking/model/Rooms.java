@@ -8,7 +8,7 @@ import jakarta.persistence.Enumerated;
 @Entity
 public class Rooms {
   @Id
-  private int roomNumber;
+  private Integer roomNumber;
 
   @Enumerated(EnumType.STRING)
   private RoomType roomType;
@@ -19,11 +19,11 @@ public class Rooms {
   private RoomStatus roomStatus;
 
   // Getters and Setters
-  public int getRoomNumber() {
+  public Integer getRoomNumber() {
     return roomNumber;
   }
 
-  public void setRoomNumber(int roomNumber) {
+  public void setRoomNumber(Integer roomNumber) {
     this.roomNumber = roomNumber;
   }
 

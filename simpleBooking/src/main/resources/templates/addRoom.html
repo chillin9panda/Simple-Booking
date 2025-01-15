@@ -9,6 +9,25 @@
 
 <body>
   <h1>Add Rooms</h1>
+  <form th:action="@{/addRoom}" method="post">
+    <label>Room Number: </label>
+    <input type="text" name="roomNumber" placeholder="Enter Room Number" required />
+    <label>Room Type: </label>
+    <select name="roomType" required>
+      <option value="SINGLE">Single</option>
+      <option value="DOUBLE">Double</option>
+    </select>
+    <label>Room Price: </label>
+    <input type="number" name="roomPrice" step="0.01" required />
+    <label>Room Status: </label>
+    <select name="roomStatus" required>
+      <option value="AVAILABLE">Available</option>
+      <option value="UNAVAILABLE">Unavailable</option>
+      <option value="BOOKED">Booked</option>
+    </select>
+
+    <button type="submit">Add Room</button>
+  </form>
 </body>
 
 </html>
