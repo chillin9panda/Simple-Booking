@@ -16,11 +16,11 @@ public class Booking {
   private Integer bookingID;
 
   @ManyToOne
-  @JoinColumn(name = "phone_num", referencedColumnName = "phone_num")
+  @JoinColumn(name = "phoneNum", referencedColumnName = "phoneNum")
   private Guests guest;
 
   @OneToOne
-  @JoinColumn(name = "room_number", referencedColumnName = "room_number")
+  @JoinColumn(name = "roomNumber", referencedColumnName = "roomNumber")
   private Rooms room;
 
   private Date checkInDate;
