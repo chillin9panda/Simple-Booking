@@ -30,12 +30,17 @@ class BookingController {
   @Autowired
   private RoomsRepository roomsRepository;
 
-  @PostMapping
+  @PostMapping("/newBooking")
   public ResponseEntity<String> createBooking(@RequestBody Booking bookingRequest) {
-    Optional<Guests> guest = guestsRepository.findById(bookingRequest.getGuest().getPhoneNum());
+    Optional<Guests> guestOptional = guestsRepository.findById(bookingRequest.getGuest().getPhoneNum());
 
-    if (guest.isEmpty()) {
-      return ResponseEntity.badRequest().body("Guest Not Found!");
+    Guests guest;
+
+    if (guestOptional.isEmpty()) {
+      guest = bookingRequest.getGuest();
+      guestsRepository.save(guest);
+    } else {
+      guest = guestOptional.get();
     }
 
     Optional<Rooms> room = roomsRepository.findById(bookingRequest.getRoom().getRoomNumber());
@@ -49,7 +54,7 @@ class BookingController {
     }
 
     // Create booking
-    bookingRequest.setGuest(guest.get());
+    bookingRequest.setGuest(guest);
     bookingRequest.setRoom(room.get());
     bookingRequest.setIsActive(true);
     bookingRepository.save(bookingRequest);
