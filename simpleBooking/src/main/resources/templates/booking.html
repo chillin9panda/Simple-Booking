@@ -15,6 +15,7 @@
           <ul class="nav-links">
             <li><a href="#" id="home-link">Home</a></li>
             <li><a href="#" id="book-room-link">Book Room</a></li>
+            <li><a href="#" id="bookings-link">Bookings</a></li>
             <li><a href="#" id="view-rooms-link">View Rooms</a></li>
             <!--Add notitfication icon-->
             <a href="" class="logout-btn">Logout</a>
@@ -110,7 +111,7 @@
           <!--Room Info-->
           <div class="form-group">
             <label for="room-number">Room Number: </label>
-            <select name=roomNumber>
+            <select name="roomNumber">
               <option value="" disabled selected>Select Room</option>
               <option
                 th:each="room : ${availableRooms}"
@@ -123,6 +124,25 @@
           <!--Submit Button-->
           <button type="submit" class="book-room-btn">Book Room</button>
         </form>
+      </div>
+
+      <!--Bookings-->
+      <div id="bookings-section" class="bookings" style="display: none">
+        <h3>Bookings Overview</h3>
+        <div class="bookings-list">
+          <div class="booking" th:each="booking : ${bookings}">
+            <span class="booking-id">
+              <a
+                th:href="@{/booking/{id}(id=${booking.bookingId})}"
+                th:text="${booking.bookingId}"
+              ></a>
+            </span>
+            <span class="guest-name" th:text="${booking.firstName}"></span>
+            <span class="guest-phone" th:text="${booking.phoneNum}"></span>
+            <span class="room-number" th:text="${booking.roomNumber}"></span>
+            <span class="room-status" th:text="${booking.status}"></span>
+          </div>
+        </div>
       </div>
 
       <!--View Rooms-->

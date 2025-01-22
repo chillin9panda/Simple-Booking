@@ -221,13 +221,15 @@
 }
 
 /*view rooms*/
-.room-list {
+.room-list,
+.bookings-list {
 	display: flex;
 	flex-direction: column;
 	gap: 10px
 }
 
-.room {
+.room,
+.booking {
 	display: flex;
 	justify-content: space-between;
 	padding: 10px;
@@ -240,21 +242,6 @@
 	font-weight: bold;
 	padding: 5px 10px;
 	border-radius: 5px;
-}
-
-.room-status.available {
-	color: #fff;
-	background-color: #28a745;
-}
-
-.room-status.occupied {
-	color: #fff;
-	background-color: #ffc107;
-}
-
-.room-status.available {
-	color: #fff;
-	background-color: #dc3545;
 }
 
 /* Manage Rooms Button */
@@ -274,5 +261,4 @@
 .add-room-btn:hover {
 	background-color: #45a049;
 }
-
 

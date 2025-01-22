@@ -29,12 +29,18 @@ function showViewRooms() {
     document.getElementById('view-rooms-section').style.display = 'block';
 }
 
+function showBookings(){
+    hideAllSections();
+    document.getElementById('bookings-section').style.display = 'block';
+}
+
 // Function to hide all sections
 function hideAllSections() {
     document.getElementById('home-section').style.display = 'none';  // Hide Home section
     document.getElementById('info-section').style.display = 'none';  // Hide Info section
     document.getElementById('book-room-section').style.display = 'none';  // Hide Book Room section
     document.getElementById('view-rooms-section').style.display = 'none'; // Hide View Rooms section
+    document.getElementById('bookings-section').style.display = 'none';
 }
 
 // Event Listeners for navigation links
@@ -53,6 +59,10 @@ document.getElementById('view-rooms-link').addEventListener('click', function (e
     showViewRooms();
 });
 
+document.getElementById('bookings-link').addEventListener('click', function (event) {
+    event.preventDefault();
+    showBookings();
+});
 
 // Set the default section to show (Home) when the page loads
 window.onload = showHome;
