@@ -13,7 +13,7 @@ import jakarta.persistence.OneToOne;
 public class Booking {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer bookingID;
+  private Integer bookingId;
 
   @ManyToOne
   @JoinColumn(name = "phoneNum", referencedColumnName = "phoneNum")
@@ -46,7 +46,7 @@ public class Booking {
   }
 
   public Integer getBookingId() {
-    return bookingID;
+    return bookingId;
   }
 
   public void setCheckInDate(Date checkInDate) {

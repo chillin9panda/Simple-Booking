@@ -13,25 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 import java.util.List;
 
-@Controller
-@RequestMapping("/")
+@RestController
+@RequestMapping("/rooms")
 public class RoomsController {
 
   @Autowired
   private RoomsRepository roomsRepository;
-
-  @GetMapping
-  public String getAllRooms(Model model) {
-    List<Rooms> rooms = roomsRepository.findAll();
-    model.addAttribute("rooms", rooms);
-
-    List<Rooms> availableRooms = roomsRepository.findByRoomStatus(Rooms.RoomStatus.AVAILABLE);
-    model.addAttribute("availableRooms", availableRooms);
-    return "booking";
-  }
 
   @GetMapping("/addRoom")
   public String loadAddRoomForm() {
