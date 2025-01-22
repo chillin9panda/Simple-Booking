@@ -1,7 +1,9 @@
 package com.booking.simpleBooking.controller;
 
+import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.booking.simpleBooking.model.Booking;
 import com.booking.simpleBooking.model.Guests;
@@ -31,38 +34,54 @@ class BookingController {
   private RoomsRepository roomsRepository;
 
   @PostMapping("/newBooking")
-  public ResponseEntity<String> createBooking(@RequestBody Booking bookingRequest) {
-    Optional<Guests> guestOptional = guestsRepository.findById(bookingRequest.getGuest().getPhoneNum());
+  public ResponseEntity<String> createBooking(
+      @RequestParam String firstName,
+      @RequestParam String lastName,
+      @RequestParam String phoneNum,
+      @RequestParam(required = false) String email,
+      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkInDate,
+      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date checkOutDate,
+      @RequestParam Integer roomNumber) {
+
+    Optional<Guests> guestOptional = guestsRepository.findById(phoneNum);
 
     Guests guest;
 
     if (guestOptional.isEmpty()) {
-      guest = bookingRequest.getGuest();
+      guest = new Guests();
+      guest.setFirstName(firstName);
+      guest.setLastName(lastName);
+      guest.setPhoneNum(phoneNum);
+      guest.setEmail(email);
       guestsRepository.save(guest);
     } else {
       guest = guestOptional.get();
     }
 
-    Optional<Rooms> room = roomsRepository.findById(bookingRequest.getRoom().getRoomNumber());
+    Optional<Rooms> roomOptional = roomsRepository.findById(roomNumber);
 
-    if (room.isEmpty()) {
+    if (roomOptional.isEmpty()) {
       return ResponseEntity.badRequest().body("Room Not Found!");
     }
 
-    if (room.get().getRoomStatus() != Rooms.RoomStatus.AVAILABLE) {
+    Rooms room = roomOptional.get();
+
+    if (room.getRoomStatus() != Rooms.RoomStatus.AVAILABLE) {
       return ResponseEntity.badRequest().body("Room not Available!");
     }
 
     // Create booking
-    bookingRequest.setGuest(guest);
-    bookingRequest.setRoom(room.get());
-    bookingRequest.setIsActive(true);
-    bookingRepository.save(bookingRequest);
+    Booking booking = new Booking();
+    booking.setGuest(guest);
+    booking.setRoom(room);
+    booking.setCheckInDate(checkInDate);
+    booking.setCheckOutDate(checkOutDate);
+    booking.setIsActive(true);
+    bookingRepository.save(booking);
 
     // Update status
-    Rooms bookedRoom = room.get();
-    bookedRoom.setRoomStatus(Rooms.RoomStatus.BOOKED);
-    roomsRepository.save(bookedRoom);
+    room.setRoomStatus(Rooms.RoomStatus.BOOKED);
+    roomsRepository.save(room);
 
     return ResponseEntity.ok("Booking Created Successfully!");
   }
