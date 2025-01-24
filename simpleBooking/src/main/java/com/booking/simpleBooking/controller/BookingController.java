@@ -135,6 +135,17 @@ class BookingController {
     return ResponseEntity.ok("Booking Created Successfully!");
   }
 
+  @GetMapping("/booking/{bookingId}")
+  public ResponseEntity<Booking> getBooking(@PathVariable Integer bookingId) {
+    Optional<Booking> bookingOptional = bookingRepository.findById(bookingId);
+
+    if (bookingOptional.isEmpty()) {
+      return ResponseEntity.status(404).body(null);
+    }
+
+    return ResponseEntity.ok(bookingOptional.get());
+  }
+
   @Transactional
   @PutMapping("/booking/{bookingId}")
   public ResponseEntity<String> modifyBooking(@PathVariable Integer bookingId, @RequestBody Booking updatedBooking) {
