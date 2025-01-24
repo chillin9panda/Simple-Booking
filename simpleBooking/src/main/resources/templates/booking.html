@@ -29,7 +29,7 @@
     <!-- Home Section -->
     <div id="home-section" class="main-body" style="display: block">
       <div class="welcome">
-        <h2>Welcome, <span th:text="${user_name}"></span></h2>
+        <h2>Welcome, <span th:text="${firstName}"></span></h2>
         <p>Today is <span id="current-date"></span></p>
       </div>
     </div>
@@ -37,9 +37,9 @@
     <div id="info-section" class="info-section" style="display: block">
       <div class="status-overview">
         <h3>Room Status</h3>
-        <div class="status-cards"><span>Total Rooms: 15 </span></div>
-        <div class="status-cards"><span>Available Rooms: 10</span></div>
-        <div class="status-cards"><span>Booked Rooms: 5</span></div>
+        <div class="status-cards"><span th:text="'Total Rooms: ' + ${roomsCount}"></span></div>
+        <div class="status-cards"><span th:text="'Available Rooms: ' + ${availableRoomsCount}"></span></div>
+        <div class="status-cards"><span th:text="'Booked Rooms:' + ${bookedRoomsCount}"></span></div>
       </div>
 
       <div class="search">

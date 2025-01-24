@@ -50,9 +50,14 @@ class BookingController {
 
     List<Rooms> rooms = roomsRepository.findAll();
     model.addAttribute("rooms", rooms);
+    model.addAttribute("roomsCount", rooms.size());
 
     List<Rooms> availableRooms = roomsRepository.findByRoomStatus(Rooms.RoomStatus.AVAILABLE);
     model.addAttribute("availableRooms", availableRooms);
+    model.addAttribute("availableRoomsCount", availableRooms.size());
+
+    List<Rooms> bookedRooms = roomsRepository.findByRoomStatus(Rooms.RoomStatus.BOOKED);
+    model.addAttribute("bookedRoomsCount", bookedRooms.size());
 
     return "booking";
   }
