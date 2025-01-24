@@ -15,11 +15,15 @@ class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authz -> authz
         .requestMatchers("/addEmployee").permitAll()
+        .requestMatchers("/login").permitAll()
         .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
         .anyRequest().authenticated() // Require authentication for other page
     )
         .formLogin(form -> form
-            .permitAll());
+            .loginPage("/login").permitAll())
+        .logout(logout -> logout
+            .permitAll()
+            .logoutSuccessUrl("/login?logout=true"));
 
     return http.build();
   }
