@@ -1,6 +1,9 @@
 package com.booking.simpleBooking.model;
 
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +27,8 @@ public class Booking {
   private Rooms room;
 
   private Date checkInDate;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date checkOutDate;
 
   private Boolean isActive;

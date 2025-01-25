@@ -38,12 +38,13 @@
 
     <div>
       <label for="checkOutDate">Check-out-Date </label>
-      <input type="date" id="checkOutDate" name="checkOutDate" th:value="${booking.checkOutDate}" required />
+      <input type="date" id="checkOutDate" name="checkOutDate" th:value="${booking.checkOutDate}" />
     </div>
 
     <div>
       <label for="room">Room </label>
-      <select id="room" name="room.roomNumber" th:value="${booking.room.roomNumber}" required>
+      <select id="room" name="room.roomNumber" th:value="${booking.room.roomNumber}">
+        <option value="" disabled selected="">Select Room</option>
         <option th:each="room : ${availableRooms}" th:value="${room.roomNumber}" th:text="${room.roomNumber}"></option>
       </select>
     </div>

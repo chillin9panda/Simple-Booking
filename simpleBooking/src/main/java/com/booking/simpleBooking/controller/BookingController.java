@@ -31,6 +31,7 @@ import com.booking.simpleBooking.views.BookingViewModel;
 import org.springframework.ui.Model;
 import jakarta.transaction.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 @RequestMapping("/")
@@ -166,10 +167,10 @@ class BookingController {
   }
 
   @Transactional
-  @PutMapping("/booking/{bookingId}")
-  public ResponseEntity<String> modifyBooking(@PathVariable Integer bookingId, @RequestBody Booking updatedBooking) {
+  @PostMapping("/booking/{bookingId}")
+  public ResponseEntity<String> modifyBooking(@PathVariable Integer bookingId, @ModelAttribute Booking updatedBooking) {
 
-    // Validations
+    // Validate and fetch existing booking
     Optional<Booking> existingBookingOptional = bookingRepository.findById(bookingId);
     if (existingBookingOptional.isEmpty()) {
       return ResponseEntity.badRequest().body("Booking Not Found!");
@@ -177,36 +178,43 @@ class BookingController {
 
     Booking existingBooking = existingBookingOptional.get();
 
-    Optional<Guests> guestOptional = guestsRepository.findById(updatedBooking.getGuest().getPhoneNum());
-    if (guestOptional.isEmpty()) {
-      return ResponseEntity.badRequest().body("Guest Not Found!");
-    }
+    // Validate and fetch new room (if provided)
+    Rooms newRoom = null;
+    if (updatedBooking.getRoom() != null) {
+      Optional<Rooms> roomOptional = roomsRepository.findById(updatedBooking.getRoom().getRoomNumber());
+      if (roomOptional.isEmpty()) {
+        return ResponseEntity.badRequest().body("Room Not Found!");
+      }
+      newRoom = roomOptional.get();
 
-    Guests guest = guestOptional.get();
-
-    Optional<Rooms> roomOptional = roomsRepository.findById(updatedBooking.getRoom().getRoomNumber());
-    if (roomOptional.isEmpty()) {
-      return ResponseEntity.badRequest().body("Room Not Found!");
-    }
-
-    Rooms room = roomOptional.get();
-
-    // check availablity before change'
-    if (!room.equals(existingBooking.getRoom()) ||
-        !updatedBooking.getCheckInDate().equals(existingBooking.getCheckInDate()) ||
-        !updatedBooking.getCheckOutDate().equals(existingBooking.getCheckOutDate())) {
-      if (room.getRoomStatus() != Rooms.RoomStatus.AVAILABLE) {
-        return ResponseEntity.badRequest().body("Room Not Available!");
+      // Check availability of the new room
+      if (!newRoom.equals(existingBooking.getRoom()) && newRoom.getRoomStatus() != Rooms.RoomStatus.AVAILABLE) {
+        return ResponseEntity.badRequest().body("New Room Not Available!");
       }
     }
 
-    if (updatedBooking.getCheckInDate().after(updatedBooking.getCheckOutDate())) {
-      return ResponseEntity.badRequest().body("Check-in date must be before Check-out date");
+    // Update room if it has changed
+    if (newRoom != null && !newRoom.equals(existingBooking.getRoom())) {
+      // Set previous room's status to AVAILABLE
+      existingBooking.getRoom().setRoomStatus(Rooms.RoomStatus.AVAILABLE);
+      roomsRepository.save(existingBooking.getRoom());
+
+      newRoom.setRoomStatus(Rooms.RoomStatus.BOOKED);
+
+      // Update booking with new room
+      existingBooking.setRoom(newRoom);
     }
 
-    // Update booking details
-    existingBooking.setRoom(room);
-    existingBooking.setCheckOutDate(updatedBooking.getCheckOutDate());
+    // Update check-out date if provided
+    if (updatedBooking.getCheckOutDate() != null) {
+      if (updatedBooking.getCheckInDate() != null
+          && updatedBooking.getCheckInDate().after(updatedBooking.getCheckOutDate())) {
+        return ResponseEntity.badRequest().body("Check-in date must be before Check-out date");
+      }
+      existingBooking.setCheckOutDate(updatedBooking.getCheckOutDate());
+    }
+
+    // Save updated booking
     bookingRepository.save(existingBooking);
 
     return ResponseEntity.ok("Booking Updated!");
