@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.booking.simpleBooking.model.Booking;
 import com.booking.simpleBooking.model.Employee;
 import com.booking.simpleBooking.model.Guests;
 import com.booking.simpleBooking.model.Rooms;
-import com.booking.simpleBooking.model.Rooms.RoomStatus;
 import com.booking.simpleBooking.repository.BookingRepository;
 import com.booking.simpleBooking.repository.BookingViewRepository;
 import com.booking.simpleBooking.repository.EmployeeRepository;
@@ -163,9 +161,6 @@ class BookingController {
 
     List<Rooms> availableRooms = roomsRepository.findByRoomStatus(Rooms.RoomStatus.AVAILABLE);
     model.addAttribute("availableRooms", availableRooms);
-
-    Guests guest = booking.getGuest();
-    model.addAttribute("guest", guest);
 
     return "editBooking";
   }
