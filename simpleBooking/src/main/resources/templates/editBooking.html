@@ -52,7 +52,18 @@
     <div>
       <button type="submit">Submit Changes</button>
     </div>
+
+    <br>
   </form>
+
+  <div>
+    <form th:action="@{/booking/delete/{bookingId}(bookingId=${booking.bookingId})}" method="post">
+      <input type="hidden" name="_method" value="DELETE" />
+      <button type="sumit" style="color: red;">Delete Booking</button>
+    </form>
+  </div>
+
+
 </body>
 
 </html>
