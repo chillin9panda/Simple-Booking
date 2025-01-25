@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.booking.simpleBooking.model.Booking;
 import com.booking.simpleBooking.model.Employee;
 import com.booking.simpleBooking.model.Guests;
@@ -135,7 +138,7 @@ class BookingController {
     return ResponseEntity.ok("Booking Created Successfully!");
   }
 
-  @GetMapping("/booking/{bookingId}")
+  @GetMapping("/booking/json/{bookingId}")
   public ResponseEntity<Booking> getBooking(@PathVariable Integer bookingId) {
     Optional<Booking> bookingOptional = bookingRepository.findById(bookingId);
 
@@ -144,6 +147,20 @@ class BookingController {
     }
 
     return ResponseEntity.ok(bookingOptional.get());
+  }
+
+  @GetMapping("/booking/edit/{bookingId}")
+  public String editBookingPage(@PathVariable Integer bookingId, Model model) {
+    Optional<Booking> bookingOptional = bookingRepository.findById(bookingId);
+
+    if (bookingOptional.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not Found");
+    }
+
+    Booking booking = bookingOptional.get();
+    model.addAttribute("booking", booking);
+
+    return "editBooking";
   }
 
   @Transactional

@@ -102,7 +102,7 @@
       <div class="bookings-list">
         <div class="booking" th:each="booking : ${bookings}">
           <span class="booking-id">
-            <a th:href="@{/booking/{id}(id=${booking.bookingId})}" th:text="${booking.bookingId}"></a>
+            <a th:href="@{/booking/edit/{id}(id=${booking.bookingId})}" th:text="${booking.bookingId}"></a>
           </span>
           <span class="guest-name" th:text="${booking.firstName}"></span>
           <span class="guest-phone" th:text="${booking.phoneNum}"></span>
