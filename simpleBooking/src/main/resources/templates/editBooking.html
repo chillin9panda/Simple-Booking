@@ -57,6 +57,13 @@
   </form>
 
   <div>
+    <form th:action="@{/booking/checkout/{bookingId}(bookingId=${booking.bookingId})}" method="post">
+      <button type="submit">Check-Out</button>
+    </form>
+    <br>
+  </div>
+
+  <div>
     <form th:action="@{/booking/delete/{bookingId}(bookingId=${booking.bookingId})}" method="post">
       <input type="hidden" name="_method" value="DELETE" />
       <button type="sumit" style="color: red;">Delete Booking</button>
