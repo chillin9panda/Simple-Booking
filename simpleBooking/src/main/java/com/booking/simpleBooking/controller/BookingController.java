@@ -23,6 +23,7 @@ import com.booking.simpleBooking.model.Booking;
 import com.booking.simpleBooking.model.Employee;
 import com.booking.simpleBooking.model.Guests;
 import com.booking.simpleBooking.model.Rooms;
+import com.booking.simpleBooking.model.Rooms.RoomStatus;
 import com.booking.simpleBooking.repository.BookingRepository;
 import com.booking.simpleBooking.repository.BookingViewRepository;
 import com.booking.simpleBooking.repository.EmployeeRepository;
@@ -160,6 +161,12 @@ class BookingController {
     Booking booking = bookingOptional.get();
     model.addAttribute("booking", booking);
 
+    List<Rooms> availableRooms = roomsRepository.findByRoomStatus(Rooms.RoomStatus.AVAILABLE);
+    model.addAttribute("availableRooms", availableRooms);
+
+    Guests guest = booking.getGuest();
+    model.addAttribute("guest", guest);
+
     return "editBooking";
   }
 
@@ -203,11 +210,8 @@ class BookingController {
     }
 
     // Update booking details
-    existingBooking.setGuest(guest);
     existingBooking.setRoom(room);
-    existingBooking.setCheckInDate(updatedBooking.getCheckInDate());
     existingBooking.setCheckOutDate(updatedBooking.getCheckOutDate());
-    existingBooking.setIsActive(updatedBooking.getIsActive());
     bookingRepository.save(existingBooking);
 
     return ResponseEntity.ok("Booking Updated!");

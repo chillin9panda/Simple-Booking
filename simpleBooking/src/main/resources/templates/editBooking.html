@@ -9,7 +9,49 @@
 
 <body>
   <h1>Edit Booking</h1>
+  <form th:action="@{/booking/{bookingId}(bookingId=${booking.bookingId})}" method="post">
+    <div>
+      <label for="bookingId">Booking ID: </label>
+      <span th:text="${booking.bookingId}" />
+    </div>
 
+    <div>
+      <label for="checkInDate">Check-in Date: </label>
+      <span th:text="${booking.checkInDate}" />
+    </div>
+
+    <div>
+      <label for="firstName">Guest Name: </label>
+      <span th:text="${booking.guest.firstName}" />
+      <span th:text="${booking.guest.lastName}" />
+    </div>
+
+    <div>
+      <label for="phoneNum">Phone Number</label>
+      <input type="text" id="phoneNum" name="phoneNum" th:value="${booking.guest.phoneNum}" readonly />
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" th:value="${booking.guest.email}" readonly />
+    </div>
+
+    <div>
+      <label for="checkOutDate">Check-out Date</label>
+      <input type="date" id="checkOutDate" name="checkOutDate" th:value="${booking.checkOutDate}" required />
+    </div>
+
+    <div>
+      <label for="room">Room</label>
+      <select id="room" name="room.roomNumber" th:value="${booking.room.roomNumber}" required>
+        <option th:each="room : ${availableRooms}" th:value="${room.roomNumber}" th:text="${room.roomNumber}"></option>
+      </select>
+    </div>
+
+    <div>
+      <button type="submit">Submit Changes</button>
+    </div>
+  </form>
 </body>
 
 </html>
