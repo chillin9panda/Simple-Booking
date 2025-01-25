@@ -27,22 +27,22 @@
     </div>
 
     <div>
-      <label for="phoneNum">Phone Number</label>
-      <input type="text" id="phoneNum" name="phoneNum" th:value="${booking.guest.phoneNum}" readonly />
+      <label for="phoneNum">Phone Number: </label>
+      <span th:text="${booking.guest.phoneNum}" />
     </div>
 
     <div>
-      <label for="email">Email</label>
-      <input type="text" id="email" name="email" th:value="${booking.guest.email}" readonly />
+      <label for="email">Email: </label>
+      <span th:text="${booking.guest.email}" />
     </div>
 
     <div>
-      <label for="checkOutDate">Check-out Date</label>
+      <label for="checkOutDate">Check-out-Date </label>
       <input type="date" id="checkOutDate" name="checkOutDate" th:value="${booking.checkOutDate}" required />
     </div>
 
     <div>
-      <label for="room">Room</label>
+      <label for="room">Room </label>
       <select id="room" name="room.roomNumber" th:value="${booking.room.roomNumber}" required>
         <option th:each="room : ${availableRooms}" th:value="${room.roomNumber}" th:text="${room.roomNumber}"></option>
       </select>
