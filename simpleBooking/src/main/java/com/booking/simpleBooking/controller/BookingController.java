@@ -1,5 +1,7 @@
 package com.booking.simpleBooking.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
@@ -218,6 +218,36 @@ class BookingController {
     bookingRepository.save(existingBooking);
 
     return ResponseEntity.ok("Booking Updated!");
+  }
+
+  // Check-out
+  @PostMapping("/booking/checkout/{bookingId}")
+  public ResponseEntity<String> checkOutBooking(@PathVariable Integer bookingId) {
+    Optional<Booking> existingBooking = bookingRepository.findById(bookingId);
+    if (existingBooking.isEmpty()) {
+      return ResponseEntity.badRequest().body("Booking is not found!");
+    }
+
+    Booking booking = existingBooking.get();
+
+    Date today = new Date();
+
+    LocalDate bookingCheckOutLocalDate = booking.getCheckOutDate().toInstant().atZone(ZoneId.systemDefault())
+        .toLocalDate();
+
+    LocalDate todayLocalDate = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+    if (!bookingCheckOutLocalDate.equals(todayLocalDate)) {
+      booking.setCheckOutDate(today);
+    }
+
+    booking.setIsActive(false);
+
+    Rooms room = booking.getRoom();
+    room.setRoomStatus(Rooms.RoomStatus.AVAILABLE);
+    bookingRepository.save(booking);
+
+    return ResponseEntity.ok("Check-out Successfull");
   }
 
   // Delete Booking
