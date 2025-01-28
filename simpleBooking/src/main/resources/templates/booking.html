@@ -44,8 +44,16 @@
 
       <div class="search">
         <h3>Search Booking</h3>
-        <input type="text" placeholder="Enter Room Number" />
-        <button class="search-btn">Search</button>
+        <form th:action="@{/}" method="get">
+          <input type="text" name="phoneNum" placeholder="Guest Phone Number" required />
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+        <br><br>
+        <span th:if="${message}" th:text="${message}"></span>
+        <span th:each="booking : ${bookingFound}">
+          <a th:href="@{/booking/edit/{id}(id=${booking.bookingId})}" th:text="${booking.bookingId}"></a>
+          <span th:text="${booking.guest.firstName}" />
+        </span>
       </div>
     </div>
 

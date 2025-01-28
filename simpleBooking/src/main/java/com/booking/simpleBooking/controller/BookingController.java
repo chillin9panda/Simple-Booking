@@ -53,7 +53,7 @@ class BookingController {
   EmployeeRepository employeeRepository;
 
   @GetMapping("/")
-  public String showHomePage(Model model, @RequestParam(required = false) String view) {
+  public String showHomePage(Model model, @RequestParam(required = false) String phoneNum) {
     // Booking
     List<BookingViewModel> bookings = bookingViewRepository.getAllBookingViews();
     model.addAttribute("bookings", bookings);
@@ -81,6 +81,15 @@ class BookingController {
     String firstName = loggedInEmployee.getFirstName();
 
     model.addAttribute("firstName", firstName);
+
+    // Search for booking with guest phone number
+    List<Booking> bookingFound = bookingRepository.findByGuestPhoneNum(phoneNum);
+
+    if (bookingFound.isEmpty()) {
+      model.addAttribute("message", "No booking found for Phone Number: " + phoneNum);
+    } else {
+      model.addAttribute("bookingFound", bookingFound);
+    }
 
     return "booking";
   }
