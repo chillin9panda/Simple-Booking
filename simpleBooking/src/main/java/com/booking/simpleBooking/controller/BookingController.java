@@ -83,12 +83,14 @@ class BookingController {
     model.addAttribute("firstName", firstName);
 
     // Search for booking with guest phone number
-    List<Booking> bookingFound = bookingRepository.findByGuestPhoneNum(phoneNum);
+    if (phoneNum != null && !phoneNum.trim().isEmpty()) {
+      List<Booking> bookingFound = bookingRepository.findByGuestPhoneNum(phoneNum);
 
-    if (bookingFound.isEmpty()) {
-      model.addAttribute("message", "No booking found for Phone Number: " + phoneNum);
-    } else {
-      model.addAttribute("bookingFound", bookingFound);
+      if (bookingFound.isEmpty()) {
+        model.addAttribute("message", "No booking found for Phone Number: " + phoneNum);
+      } else {
+        model.addAttribute("bookingFound", bookingFound);
+      }
     }
 
     return "booking";
