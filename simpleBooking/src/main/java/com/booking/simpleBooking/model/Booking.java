@@ -1,16 +1,13 @@
 package com.booking.simpleBooking.model;
 
 import java.util.Date;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Booking {
@@ -22,7 +19,7 @@ public class Booking {
   @JoinColumn(name = "phoneNum", referencedColumnName = "phoneNum")
   private Guests guest;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "roomNumber", referencedColumnName = "roomNumber")
   private Rooms room;
 
